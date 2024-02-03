@@ -1,11 +1,14 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import timedelta
+from odoo.tools import format_amount
 
 
 class Dossier(models.Model):
     _name = 'ta.dossier'
     _description = 'DOSSIER'
+    _rec_name = 'sequence'
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Hériter de mail.thread et mail.activity.mixin
 
     sequence = fields.Char('Name', default='New', readonly=True)
     reference_client = fields.Char(string='Référence client')
@@ -72,10 +75,22 @@ class Dossier(models.Model):
     date_liquidation = fields.Date(string='Date liquidation')
     date_mainlevee = fields.Date(string='Date mainlevée')
     date_livraison = fields.Date(string='Date livraison')
+    facture_summary_html = fields.Html(
+        string='Résumé Factures',
+        compute='_compute_facture_summary_html',
+        sanitize=False,  # Permet de conserver le HTML tel quel, faites attention à l'injection HTML
+    )
 
     controle_douanier_ids = fields.One2many('ta.controledouanier', 'dossier_id', string='Contrôles douaniers')
     ligne_facturation_ids = fields.One2many('ligne.facturation', 'dossier_id', string='Lignes de Facturation')
     ventilations_ids = fields.One2many('ventilation.model', 'dossier_id', string='Ventilations')
+    # Supposons que le modèle de facture d'Odoo soit 'account.move' et que chaque facture ait un champ 'dossier_id' le reliant au dossier
+    facture_ids = fields.One2many('account.move', 'dossier_id', string='Factures Associées')
+
+
+    # Nouveau : Champ calculé pour récupérer les lignes de facture liées
+    ligne_facture_ids = fields.One2many('account.move.line', compute='_compute_ligne_facture_ids', string='Lignes de Facture')
+
 
     @api.depends('date')
     def _compute_expected_date(self):
@@ -86,6 +101,66 @@ class Dossier(models.Model):
             else:
                 record.expected_date = False
 
+    @api.depends('facture_ids', 'facture_ids.invoice_line_ids')
+    def _compute_facture_summary_html(self):
+        for dossier in self:
+            products_summary = {}
+            total_sales = 0
+            total_purchases = 0
+
+            for invoice in dossier.facture_ids:
+                sign = 1 if invoice.move_type == 'out_invoice' else -1
+                for line in invoice.invoice_line_ids.filtered(lambda l: l.product_id):
+                    product = line.product_id
+                    amount = line.price_subtotal * sign
+
+                    if product not in products_summary:
+                        products_summary[product] = {'sales': 0, 'purchases': 0}
+                    if sign == 1:
+                        products_summary[product]['sales'] += amount
+                        total_sales += amount
+                    else:
+                        products_summary[product]['purchases'] += amount
+                        total_purchases += amount
+
+            # Construction du contenu HTML avec les classes CSS d'Odoo
+            html_content = """
+                <table class="o_list_view table table-condensed table-striped o_list_view_ungrouped">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Ventes</th>
+                            <th>Achats</th>
+                            <th>Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            """
+            for product, amounts in products_summary.items():
+                delta = amounts['sales'] + amounts['purchases']  # Achats sont déjà négatifs
+                html_content += f"""
+                    <tr>
+                        <td>{product.display_name}</td>
+                        <td>{amounts['sales']}</td>
+                        <td>{amounts['purchases']}</td>
+                        <td>{delta}</td>
+                    </tr>
+                """
+
+            # Calcul de la marge totale
+            total_margin = total_sales + total_purchases
+            html_content += f"""
+                    <tr class="o_list_view_total">
+                        <td><strong>Total Marge</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>{total_margin}</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+            """
+
+            dossier.facture_summary_html = html_content
     @api.model
     def create(self, vals):
         # Création d'un enregistrement dossier avec une séquence

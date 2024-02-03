@@ -6,6 +6,9 @@
         <field name="model">ta.dossier</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="mail.action_email_compose_message" string="Envoyer E-mail" type="action" context="{'default_model': 'ta.dossier', 'default_res_id': active_id}" class="oe_highlight"/>
+                </header>
                 <sheet>
                     <group>
                         <group string="Base dossier">
@@ -101,6 +104,18 @@
                                     <field name="n_fact_frs"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Factures Liées"> <!-- Titre de l'onglet/page -->
+                            <field name="facture_ids"> <!-- Remplacez facture_ids par le nom du champ dans votre modèle -->
+                                <tree>
+                                    <field name="name" readonly="1" string="Numéro de Facture"/>
+                                    <field name="company_id" readonly="1" string="Partenaire"/>
+                                    <field name="amount_untaxed" readonly="1" string="Montant HT"/>
+                                    <field name="amount_tax" readonly="1" string="Taxes"/>
+                                    <field name="amount_total" readonly="1" string="Montant TTC"/>
+                                </tree>
+                            </field>
+                            <field name="facture_summary_html" readonly="1" sanitize="False"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -217,6 +232,21 @@
         <field name="view_id" ref="view_dossier_dedouanement_list"/>
         <field name="search_view_id" ref="view_dossier_search"/>
     </record>
+    <!-- Actions pour ouvrir les vues de facture formulaire -->
+    <record model="ir.actions.act_window" id="action_open_facture_form">
+        <field name="name">Voir Facture</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="action_email_compose_message" model="ir.actions.act_window">
+        <field name="name">Envoyer un E-mail</field>
+        <field name="res_model">mail.compose.message</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_composition_mode': 'comment'}</field>
+    </record>
+
 
     <!-- Mise à jour de l'action existante pour inclure les nouvelles vues -->
     <record id="action_dossier" model="ir.actions.act_window">

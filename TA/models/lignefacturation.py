@@ -30,4 +30,4 @@ class LigneFacturation(models.Model):
     ], string='Statut de facturation fournisseur')
     n_fact_frs = fields.Char(string='Numéro de facture fournisseur')
 
-    dossier_id = fields.Many2one('dossier', string='Dossier associé')
+    dossier_id = fields.Many2one('ta.dossier', string='Dossier associé')

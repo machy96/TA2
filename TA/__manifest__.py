@@ -7,7 +7,7 @@
     'description': """Module Transit""",
     'category': 'Logistique',
     'website': 'https://www.also.ma',
-    'depends': ['base'],
+    'depends': ['base','account','mail'],
     'data': [
         'security/ir.model.access.csv',
        	'views/dossier_views.xml',
@@ -16,6 +16,7 @@
         'views/report_bon_livraison.xml',
         'views/controle_views.xml',
         'views/lignefacturation.xml',
+        'views/account_move_views.xml',
     ],
     'demo': [
         # 'demo/demo.xml',
