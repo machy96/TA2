@@ -2,3 +2,4 @@
 from . import dossier
 from . import ventilation
 from . import controle
+from . import lignefacturation

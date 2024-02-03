@@ -83,6 +83,25 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Lignes de Facturation">
+                            <field name="ligne_facturation_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
+                                <tree>
+                                    <field name="date_ligne"/>
+                                    <field name="type_ligne"/>
+                                    <field name="fournisseur_id"/>
+                                    <field name="client_id"/>
+                                    <field name="categorie_id"/>
+                                    <field name="produit_id"/>
+                                    <field name="description"/>
+                                    <field name="prix_unitaire"/>
+                                    <field name="quantite"/>
+                                    <field name="fact_client"/>
+                                    <field name="n_fact_client"/>
+                                    <field name="fact_frs"/>
+                                    <field name="n_fact_frs"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

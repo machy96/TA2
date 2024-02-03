@@ -15,6 +15,7 @@
         'views/ventilation_views.xml',
         'views/report_bon_livraison.xml',
         'views/controle_views.xml',
+        'views/lignefacturation.xml',
     ],
     'demo': [
         # 'demo/demo.xml',

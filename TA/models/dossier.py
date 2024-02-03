@@ -74,6 +74,7 @@ class Dossier(models.Model):
     date_livraison = fields.Date(string='Date livraison')
 
     controle_douanier_ids = fields.One2many('ta.controledouanier', 'dossier_id', string='Contrôles douaniers')
+    ligne_facturation_ids = fields.One2many('ligne.facturation', 'dossier_id', string='Lignes de Facturation')
     ventilations_ids = fields.One2many('ventilation.model', 'dossier_id', string='Ventilations')
 
     @api.depends('date')
