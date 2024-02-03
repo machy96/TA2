@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for DOSSIER -->
+    <record id="view_dossier_form" model="ir.ui.view">
+        <field name="name">dossier.form</field>
+        <field name="model">ta.dossier</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Base dossier">
+                            <field name="sequence"/>
+                            <field name="state"/>
+                            <field name="date"/>
+                            <field name="shipper_id"/>
+                            <field name="consignee_id"/>
+                            <field name="transport_ids"/>
+                            <field name="import_export"/>
+                        </group>
+                        <group>
+                            <field name="incoterm_id"/>
+                            <field name="nombre"/>
+                            <field name="poids_brut"/>
+                            <field name="transport"/>
+                            <field name="type_titre_transport"/>
+                            <field name="ref_titre_transport"/>
+                            <field name="expected_date"/>
+                        </group>
+                    </group>
+                    <group string="Préparation DUM">
+                        <group>
+                            <field name="date_reception_dossier"/>
+                            <field name="date_ventilation"/>
+                            <field name="date_saisie"/>
+                            <field name="date_signature"/>
+                        </group>
+                        <group>
+                            <field name="bureau"/>
+                            <field name="regime"/>
+                            <field name="annee"/>
+                            <field name="numero_dum"/>
+                        </group>
+                    </group>
+                    <group string="Dédouanement et Livraison">
+                        <group>
+                            <field name="commis_id"/>
+                            <field name="date_liquidation"/>
+
+                        </group>
+                        <group>
+                            <field name="date_mainlevee"/>
+                            <field name="date_livraison"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ventilations">
+                             <field name="ventilations_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
+                                <tree>
+                                    <!-- Champs pour la liste des ventilations (déjà présents) -->
+                                    <field name="sequence_dossier"/>
+                                    <field name="date_dossier"/>
+                                    <field name="vent_incoterm"/>
+                                    <field name="taux_de_change"/>
+                                    <field name="valeur_devise"/>
+                                    <field name="devise"/>
+                                    <field name="val_coeff"/>
+                                    <field name="fret"/>
+                                    <field name="cv"/>
+                                    <field name="assurance"/>
+                                    <field name="aconage"/>
+                                    <field name="valeur_a_declarer"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Contrôle Douanier">
+                            <field name="controle_douanier_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
+                                <tree>
+                                    <!-- Ici, ajoutez les champs pour l'onglet Contrôle Douanier -->
+                                    <field name="type_controle"/>
+                                    <field name="selectivite"/>
+                                    <field name="date_controle"/>
+                                    <field name="obtenu"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Lignes de Facturation">
+                            <field name="ligne_facturation_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
+                                <tree>
+                                    <field name="date_ligne"/>
+                                    <field name="type_ligne"/>
+                                    <field name="fournisseur_id"/>
+                                    <field name="client_id"/>
+                                    <field name="categorie_id"/>
+                                    <field name="produit_id"/>
+                                    <field name="description"/>
+                                    <field name="prix_unitaire"/>
+                                    <field name="quantite"/>
+                                    <field name="fact_client"/>
+                                    <field name="n_fact_client"/>
+                                    <field name="fact_frs"/>
+                                    <field name="n_fact_frs"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Factures Liées"> <!-- Titre de l'onglet/page -->
+                            <field name="facture_ids"> <!-- Remplacez facture_ids par le nom du champ dans votre modèle -->
+                                <tree editable="false">
+                                    <field name="name" readonly="1" string="Numéro de Facture"/>
+                                    <field name="company_id" readonly="1" string="Partenaire"/>
+                                    <field name="amount_untaxed" readonly="1" string="Montant HT"/>
+                                    <field name="amount_tax" readonly="1" string="Taxes"/>
+                                    <field name="amount_total" readonly="1" string="Montant TTC"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_dossier_list" model="ir.ui.view">
+        <field name="name">dossier.list</field>
+        <field name="model">ta.dossier</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence"/>
+                <field name="state"/>
+                <field name="date"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id"/>
+                 <field name="nombre"/>
+                <field name="poids_brut"/>
+                <field name="import_export"/>
+                <field name="numero_dum"/>
+                <field name="date_reception_dossier"/>
+                <field name="expected_date"/>
+                <field name="date_signature"/>
+                <field name="date_mainlevee"/>
+                <field name="date_livraison"/>
+            </tree>
+        </field>
+    </record>
+     <!-- Vue Liste "Préparation déclaration" -->
+    <record id="view_dossier_preparation_list" model="ir.ui.view">
+        <field name="name">dossier.preparation.list</field>
+        <field name="model">ta.dossier</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence"/>
+                <field name="state"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id"/>
+                <field name="poids_brut"/>
+                <field name="nombre"/>
+                <field name="transport"/>
+                <field name="groupage_complet"/>
+                <field name="import_export"/>
+                <field name="incoterm_id"/>
+                <field name="expected_date"/>
+                <field name="date_reception_dossier"/>
+                <field name="date_ventilation"/>
+                <field name="date_saisie"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Liste "Dédouanement" -->
+    <record id="view_dossier_dedouanement_list" model="ir.ui.view">
+        <field name="name">dossier.dedouanement.list</field>
+        <field name="model">ta.dossier</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence"/>
+                <field name="state"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id"/>
+                <field name="poids_brut"/>
+                <field name="nombre"/>
+                <field name="transport"/>
+                <field name="bureau"/>
+                <field name="regime"/>
+                <field name="annee"/>
+                <field name="numero_dum"/>
+                <field name="controle_douanier_ids"/>
+                <field name="date_signature"/>
+                <field name="date_mainlevee"/>
+                <field name="date_livraison"/>
+            </tree>
+        </field>
+    </record>
+    <record id="TA.view_dossier_search" model="ir.ui.view">
+        <field name="name">Dossier Search</field>
+        <field name="model">ta.dossier</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="sequence"/>
+                <field name="state"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id"/>
+                <field name="poids_brut"/>
+                <field name="nombre"/>
+                <field name="transport"/>
+                <field name="bureau"/>
+                <field name="regime"/>
+                <field name="annee"/>
+                <field name="numero_dum"/>
+                <!-- Définissez ici la structure de la vue de recherche en fonction de vos besoins -->
+            </search>
+        </field>
+    </record>
+
+    <!-- Action pour afficher la liste de "Préparation Déclaration" -->
+    <record id="action_dossier_preparation" model="ir.actions.act_window">
+        <field name="name">Préparation Déclaration</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dossier_preparation_list"/>
+        <field name="search_view_id" ref="view_dossier_search"/>
+    </record>
+    <!-- Actions pour ouvrir les vues de liste -->
+    <record id="action_dossier_dedouanement" model="ir.actions.act_window">
+        <field name="name">Dédouanement</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dossier_dedouanement_list"/>
+        <field name="search_view_id" ref="view_dossier_search"/>
+    </record>
+    <!-- Actions pour ouvrir les vues de facture formulaire -->
+    <record model="ir.actions.act_window" id="action_open_facture_form">
+        <field name="name">Voir Facture</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!-- Mise à jour de l'action existante pour inclure les nouvelles vues -->
+    <record id="action_dossier" model="ir.actions.act_window">
+        <field name="name">DOSSIER</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="views" eval="[(ref('view_dossier_preparation_list'), 'tree'), (ref('view_dossier_dedouanement_list'), 'tree'), (ref('view_dossier_form'), 'form')]"/>
+    </record>
+
+
+    <!-- Éléments de menu pour accéder aux nouvelles vues -->
+    <menuitem id="menu_dossier" name="DOSSIER TRANSIT" action="action_dossier"/>
+    <menuitem id="menu_dossier_preparation" name="Préparation Déclaration"
+          action="action_dossier_preparation" parent="menu_dossier"/>
+    <menuitem id="menu_dossier_dedouanement" name="Dédouanement"
+          action="action_dossier_dedouanement" parent="menu_dossier"/>
+</odoo>

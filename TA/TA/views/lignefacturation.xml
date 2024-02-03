@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vue formulaire -->
+        <record id="view_ligne_facturation_form" model="ir.ui.view">
+            <field name="name">ligne.facturation.form</field>
+            <field name="model">ligne.facturation</field>
+            <field name="arch" type="xml">
+                <form string="Ligne de Facturation">
+                    <sheet>
+                        <group>
+                            <field name="date_ligne"/>
+                            <field name="type_ligne"/>
+                            <field name="fournisseur_id"/>
+                            <field name="client_id"/>
+                            <field name="categorie_id"/>
+                            <field name="produit_id"/>
+                            <field name="description"/>
+                            <field name="prix_unitaire"/>
+                            <field name="quantite"/>
+                            <field name="fact_client"/>
+                            <field name="n_fact_client"/>
+                            <field name="fact_frs"/>
+                            <field name="n_fact_frs"/>
+                            <field name="dossier_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour ouvrir la vue formulaire -->
+        <record id="action_ligne_facturation_form" model="ir.actions.act_window">
+            <field name="name">Ligne de Facturation</field>
+            <field name="res_model">ligne.facturation</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_ligne_facturation_form"/>
+        </record>
+
+        <!-- Vue liste -->
+        <record id="view_ligne_facturation_tree" model="ir.ui.view">
+            <field name="name">ligne.facturation.tree</field>
+            <field name="model">ligne.facturation</field>
+            <field name="arch" type="xml">
+                <tree string="Lignes de Facturation">
+                    <field name="date_ligne"/>
+                    <field name="type_ligne"/>
+                    <field name="prix_unitaire"/>
+                    <field name="quantite"/>
+                    <field name="fact_client"/>
+                    <field name="fact_frs"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action pour ouvrir la vue liste -->
+        <record id="action_ligne_facturation_tree" model="ir.actions.act_window">
+            <field name="name">Lignes de Facturation</field>
+            <field name="res_model">ligne.facturation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_ligne_facturation_tree"/>
+        </record>
+
+    </data>
+</odoo>

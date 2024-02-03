@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_ta_controledouanier_form" model="ir.ui.view">
+        <field name="name">controledouanier.form</field>
+        <field name="model">ta.controledouanier</field>
+        <field name="arch" type="xml">
+            <form string="Controle Douanier">
+                <sheet>
+                    <group>
+                        <field name="sequence_dossier" readonly="1"/>
+                        <field name="state_dossier" readonly="1"/>
+                        <field name="date_dossier" readonly="1"/>
+                        <field name="loading_port_id" readonly="1"/>
+                        <field name="shipper_id" readonly="1"/>
+                        <field name="consignee_id" readonly="1"/>
+                        <field name="poids_brut" readonly="1"/>
+                        <field name="nombre" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="type_controle"/>
+                        <field name="selectivite"/>
+                        <field name="date_controle"/>
+                        <field name="obtenu"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_ta_controledouanier_tree" model="ir.ui.view">
+        <field name="name">controledouanier.tree</field>
+        <field name="model">ta.controledouanier</field>
+        <field name="arch" type="xml">
+            <tree string="Controles Douaniers">
+                <field name="sequence_dossier"/>
+                <field name="state_dossier"/>
+                <field name="date_dossier"/>
+                <field name="loading_port_id"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id"/>
+                <field name="poids_brut"/>
+                <field name="nombre"/>
+                <field name="type_controle"/>
+                <field name="selectivite"/>
+                <field name="date_controle"/>
+                <field name="obtenu"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_ta_controledouanier" model="ir.actions.act_window">
+        <field name="name">Controles Douaniers</field>
+        <field name="res_model">ta.controledouanier</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_dossier" name="DOSSIER TRANSIT" action="action_dossier"/>
+    <menuitem id="menu_ta_controledouanier" name="Controles Douaniers" parent="menu_dossier"
+        action="action_ta_controledouanier" sequence="20"/>
+</odoo>

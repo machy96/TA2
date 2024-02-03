@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ta_dossier,ta_dossier,model_ta_dossier,base.group_user,1,1,1,1
+access_ventilation_model,ventilation_model,model_ventilation_model,base.group_user,1,1,1,1
+access_ta_controledouanier,ta_controledouanier_model,model_ta_controledouanier,base.group_user,1,1,1,1
+access_ligne_facturation,ligne.facturation,model_ligne_facturation,base.group_user,1,1,1,1
