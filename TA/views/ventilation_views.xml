@@ -1,0 +1,95 @@
+<odoo>
+    <!-- Vue formulaire pour la ventilation -->
+    <record id="view_ventilation_form" model="ir.ui.view">
+        <field name="name">ventilation.model.form</field>
+        <field name="model">ventilation.model</field>
+        <field name="arch" type="xml">
+            <form string="Ventilation">
+                <sheet>
+                    <!-- Premier bloc en haut de la page -->
+                    <group string="Informations Dossier" col="4">
+                        <field name="sequence_dossier"/>
+                        <field name="date_dossier"/>
+                        <field name="shipper_id"/>
+                        <field name="consignee_id"/>
+                        <field name="nombre"/>
+                        <field name="poids_brut"/>
+                    </group>
+                    <!-- Premier bloc en dessous -->
+                    <group string="Incoterm et Devise" col="4">
+                        <field name="vent_incoterm"/>
+                        <field name="devise"/>
+                        <field name="valeur_devise"/>
+                        <field name="taux_de_change"/>
+                    </group>
+
+                    <!-- Deuxième bloc en dessous -->
+                    <group string="Coefficients et Valeur" col="4">
+                        <field name="fret"/>
+                        <field name="cv"/>
+                        <field name="assurance"/>
+                        <field name="val_coeff"/>
+                        <field name="aconage"/>
+                        <field name="base_coef"/>
+                        <field name="valeur_a_declarer"/>
+                    </group>
+
+                    <!-- Groupe pour l'importation CSV -->
+                    <group string="Importation CSV">
+                        <field name="file_data" widget='binary'/>
+                        <field name="file_name"/>
+                        <button string="Importer Fichier" type="object" name="import_file" class="oe_highlight"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Lignes de Ventilation">
+                            <field name="lignes_ventilation">
+                                <tree>
+                                    <!-- Champs des lignes de ventilation -->
+                                    <field name="hscode"/>
+                                    <field name="description"/>
+                                    <field name="accord"/>
+                                    <field name="origine"/>
+                                    <field name="unite"/>
+                                    <field name="quantite"/>
+                                    <field name="valeur_devise"/>
+                                    <field name="poids_net"/>
+                                    <field name="valeur_mad"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Nouvel onglet pour le champ pivot_table -->
+                        <page string="Onglet Pivot">
+                            <field name="pivot_table" widget="html"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste pour la ventilation -->
+    <record id="view_ventilation_tree" model="ir.ui.view">
+        <field name="name">ventilation.model.tree</field>
+        <field name="model">ventilation.model</field>
+        <field name="arch" type="xml">
+            <tree string="Ventilation">
+                <!-- Champs à afficher dans la liste -->
+                <field name="id" string="Numéro de Ventilation"/>
+                <field name="dossier_id" string="ID DOSSIER"/>
+                <field name="sequence_dossier" string="N°DOSSIER"/>
+                <field name="state_dossier" string="STATUT"/>
+                <field name="date_dossier" string="DATE"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir les vues de ventilation -->
+    <record id="action_ventilation" model="ir.actions.act_window">
+        <field name="name">Ventilation</field>
+        <field name="res_model">ventilation.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
