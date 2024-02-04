@@ -14,8 +14,6 @@ class Email(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'body' in vals:
-            numero_dum = extraire_numero_dum(vals['body'])
-            if numero_dum:
-                vals['numero_dum_extracted'] = numero_dum
+        # Ici, vous pouvez ajouter la logique pour extraire le numéro DUM du corps de l'email si nécessaire
+        # et mettre à jour `vals` en conséquence avant de créer l'enregistrement.
         return super(Email, self).create(vals)

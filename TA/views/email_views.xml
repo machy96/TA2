@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record id="view_email_form" model="ir.ui.view">
+    <field name="name">ta.email.form</field>
+    <field name="model">ta.email</field>
+    <field name="arch" type="xml">
+        <form string="E-mail">
+            <sheet>
+                <group>
+                    <field name="subject"/>
+                    <field name="email_from"/>
+                    <field name="email_to"/>
+                    <field name="received_date"/>
+                    <field name="numero_dum_extracted"/>
+                    <field name="dossier_id"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
     <!-- Vue Liste pour ta.email -->
     <record id="view_email_list" model="ir.ui.view">
         <field name="name">ta.email.list</field>
@@ -15,13 +33,7 @@
         </field>
     </record>
 
-    <!-- Action pour ouvrir la vue liste des e-mails -->
-    <record id="action_email_list" model="ir.actions.act_window">
-        <field name="name">E-mails Entrants</field>
-        <field name="res_model">ta.email</field>
-        <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_email_list"/>
-    </record>
+
     <!-- Menu pour accéder à la liste des e-mails -->
     <menuitem id="menu_email_list"
               name="E-mails Entrants"

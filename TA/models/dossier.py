@@ -8,7 +8,7 @@ class Dossier(models.Model):
     _name = 'ta.dossier'
     _description = 'DOSSIER'
     _rec_name = 'sequence'
-    _inherit = ['mail.thread', 'mail.activity.mixin']  # Hériter de mail.thread et mail.activity.mixin
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     sequence = fields.Char('Name', default='New', readonly=True)
     reference_client = fields.Char(string='Référence client')
@@ -86,11 +86,11 @@ class Dossier(models.Model):
     ventilations_ids = fields.One2many('ventilation.model', 'dossier_id', string='Ventilations')
     # Supposons que le modèle de facture d'Odoo soit 'account.move' et que chaque facture ait un champ 'dossier_id' le reliant au dossier
     facture_ids = fields.One2many('account.move', 'dossier_id', string='Factures Associées')
-
+    email_ids = fields.One2many('ta.email', 'dossier_id', string='E-mails')
 
     # Nouveau : Champ calculé pour récupérer les lignes de facture liées
-    ligne_facture_ids = fields.One2many('account.move.line', compute='_compute_ligne_facture_ids', string='Lignes de Facture')
-
+    ligne_facture_ids = fields.One2many('account.move.line', compute='_compute_ligne_facture_ids',
+                                        string='Lignes de Facture')
 
     @api.depends('date')
     def _compute_expected_date(self):
@@ -161,6 +161,7 @@ class Dossier(models.Model):
             """
 
             dossier.facture_summary_html = html_content
+
     @api.model
     def create(self, vals):
         # Création d'un enregistrement dossier avec une séquence
