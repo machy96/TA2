@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action pour afficher la liste de "Préparation Déclaration" -->
+    <record id="action_dossier_preparation" model="ir.actions.act_window">
+        <field name="name">Préparation Déclaration</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dossier_preparation_list"/>
+        <field name="search_view_id" ref="view_dossier_search"/>
+    </record>
+    <!-- Actions pour ouvrir les vues de liste -->
+    <record id="action_dossier_dedouanement" model="ir.actions.act_window">
+        <field name="name">Dédouanement</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dossier_dedouanement_list"/>
+        <field name="search_view_id" ref="view_dossier_search"/>
+    </record>
+    <!-- Actions pour ouvrir les vues de facture formulaire -->
+    <record model="ir.actions.act_window" id="action_open_facture_form">
+        <field name="name">Voir Facture</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="mail.action_email_compose_message_wizard" model="ir.actions.act_window">
+        <field name="name">Envoyer un E-mail</field>
+        <field name="res_model">mail.compose.message</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_composition_mode': 'comment'}</field>
+    </record>
+
+
+    <!-- Mise à jour de l'action existante pour inclure les nouvelles vues -->
+    <record id="action_dossier" model="ir.actions.act_window">
+        <field name="name">DOSSIER</field>
+        <field name="res_model">ta.dossier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="views" eval="[(ref('view_dossier_preparation_list'), 'tree'), (ref('view_dossier_dedouanement_list'), 'tree'), (ref('view_dossier_form'), 'form')]"/>
+    </record>
+
+</odoo>
