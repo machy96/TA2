@@ -34,11 +34,4 @@
     </record>
 
 
-    <!-- Menu pour accéder à la liste des e-mails -->
-    <menuitem id="menu_email_list"
-              name="E-mails Entrants"
-              parent="menu_dossier"
-              action="action_email_list"
-              sequence="10"/>
-
 </odoo>
