@@ -5,8 +5,8 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/> <!-- Assurez-vous que cet identifiant correspond à l'ID de la vue formulaire de facture d'Odoo que vous souhaitez étendre -->
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='invoice_line_ids']" position="before"> <!-- Ajustez le chemin XPath selon l'endroit où vous souhaitez afficher le champ -->
-                <field name="dossier_id"/>
+            <xpath expr="//field[@name='partner_id']" position="before"> <!-- Ajustez le chemin XPath selon l'endroit où vous souhaitez afficher le champ -->
+                <field name="dossier_id" string= "Num Dossier"/>
             </xpath>
         </field>
     </record>

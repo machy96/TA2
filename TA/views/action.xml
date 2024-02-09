@@ -39,14 +39,6 @@
         <field name="view_id" ref="view_email_list"/>
     </record>
 
-    <record id="action_email_list" model="ir.actions.act_window">
-        <field name="name">E-mails Entrants</field>
-        <field name="res_model">ta.email</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_email_list"/>
-        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_email_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_email_form')})]"/>
-    </record>
-
     <!-- Mise à jour de l'action existante pour inclure les nouvelles vues -->
     <record id="action_dossier" model="ir.actions.act_window">
         <field name="name">DOSSIER</field>

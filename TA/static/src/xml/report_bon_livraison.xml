@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu pour le rapport Bon de Livraison -->
+        <menuitem id="menu_report_bon_livraison"
+            name="Bon de Livraison"
+            action="action_report_bon_livraison"
+            parent="menu_dossier"
+            sequence="10"
+        />
+
+        <!-- Modèle QWeb pour le rapport Bon de Livraison -->
+        <template id="report_bon_livraison" inherit_id="base.view_form">
+            <xpath expr="//form/sheet/notebook/page[@name='internal_notes']" position="after">
+                <page string="Bon de Livraison">
+                    <div class="oe_structure">
+                        <div class="oe_content">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Champ</th>
+                                        <th>Valeur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Numéro de Séquence</td>
+                                        <td><field name="sequence"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td><field name="date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Poids Brut</td>
+                                        <td><field name="poids_brut"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colisage</td>
+                                        <td><field name="colisage"/></td>
+                                    </tr>
+                                    <!-- Ajoutez d'autres champs de votre modèle ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </page>
+            </xpath>
+        </template>
+    </data>
+</odoo>

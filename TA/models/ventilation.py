@@ -109,7 +109,7 @@ class Ventilation(models.Model):
     @api.depends('cv')
     def _compute_assurance(self):
         for record in self:
-            record.assurance = record.cv * 0.0003
+            record.assurance = record.cv * 0.003
 
     @api.depends('base_coef', 'valeur_a_declarer')
     def _val_coeff(self):

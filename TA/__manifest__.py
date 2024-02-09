@@ -10,7 +10,6 @@
     'depends': ['base','account','mail'],
     'data': [
         'security/ir.model.access.csv',
-        'views/action.xml',
     	'views/dossier_views.xml',
         'views/email_views.xml',
         'data/ta_dossier_data.xml',
@@ -19,6 +18,7 @@
         'views/controle_views.xml',
         'views/lignefacturation.xml',
         'views/account_move_views.xml',
+        'views/action.xml',
     ],
     'demo': [
         # 'demo/demo.xml',

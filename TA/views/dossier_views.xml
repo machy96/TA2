@@ -20,7 +20,7 @@
                             <field name="transport_ids"/>
                             <field name="import_export"/>
                         </group>
-                        <group>
+                        <group string="Détails">
                             <field name="incoterm_id"/>
                             <field name="nombre"/>
                             <field name="poids_brut"/>
