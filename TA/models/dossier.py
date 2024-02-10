@@ -386,7 +386,7 @@ class Dossier(models.Model):
     ventilations_ids = fields.One2many('ventilation.model', 'dossier_id', string='Ventilations')
     # Supposons que le modèle de facture d'Odoo soit 'account.move' et que chaque facture ait un champ 'dossier_id' le reliant au dossier
     facture_ids = fields.One2many('account.move', 'dossier_id', string='Factures Associées')
-    email_ids = fields.One2many('ta.email', 'dossier_id', string='E-mails')
+
 
     # Nouveau : Champ calculé pour récupérer les lignes de facture liées
     ligne_facture_ids = fields.One2many('account.move.line', compute='_compute_ligne_facture_ids',

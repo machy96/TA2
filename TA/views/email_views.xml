@@ -11,10 +11,15 @@
                     <field name="email_from"/>
                     <field name="email_to"/>
                     <field name="received_date"/>
+                    <field name="body_html"/>
                     <field name="numero_dum_extracted"/>
                     <field name="dossier_id"/>
                 </group>
             </sheet>
+
+            <div class="oe_chatter">
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
         </form>
     </field>
 </record>
@@ -28,16 +33,10 @@
                 <field name="email_from"/>
                 <field name="email_to"/>
                 <field name="received_date"/>
+                <field name="body_html"/>
                 <field name="dossier_id"/>
             </tree>
         </field>
-    </record>
-
-    <record id="action_email_list" model="ir.actions.act_window">
-        <field name="name">E-mails Entrants</field>
-        <field name="res_model">ta.email</field>
-        <field name="view_mode">tree,form</field>
-        <field name="views" eval="[(ref('view_email_list'), 'tree'), (ref('view_email_form'), 'form')]"/>
     </record>
 
 </odoo>
