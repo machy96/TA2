@@ -9,11 +9,11 @@
                 <group>
                     <field name="subject"/>
                     <field name="email_from"/>
-                    <field name="email_to"/>
                     <field name="received_date"/>
                     <field name="body_html"/>
                     <field name="numero_dum_extracted"/>
                     <field name="dossier_id"/>
+                    <field name="event_name"/>
                 </group>
             </sheet>
 
@@ -29,12 +29,17 @@
         <field name="model">ta.email</field>
         <field name="arch" type="xml">
             <tree string="E-mails Entrants">
+                <header>
+                    <button name="update_event_name_from_subject" type="object"
+                        string="Mettre à jour l'Event Name" class="oe_highlight"/>
+                </header>
+
+                <field name="numero_dum_extracted"/>
                 <field name="subject"/>
                 <field name="email_from"/>
-                <field name="email_to"/>
                 <field name="received_date"/>
-                <field name="body_html"/>
                 <field name="dossier_id"/>
+                <field name="event_name"/>
             </tree>
         </field>
     </record>

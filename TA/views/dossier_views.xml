@@ -52,7 +52,7 @@
                         </group>
                         <group>
                             <field name="date_mainlevee"/>
-                            <field name="date_livraison"/>
+                            <field name="date_sortie"/>
                         </group>
                     </group>
                     <notebook>
@@ -134,12 +134,17 @@
         <field name="model">ta.dossier</field>
         <field name="arch" type="xml">
             <tree>
+                <header>
+                <button name="action_update_details" type="action" string="Mettre à jour tout" class="oe_highlight"/>
+
+                </header>
+
                 <field name="sequence"/>
                 <field name="state"/>
                 <field name="date"/>
                 <field name="shipper_id"/>
                 <field name="consignee_id"/>
-                 <field name="nombre"/>
+                <field name="nombre"/>
                 <field name="poids_brut"/>
                 <field name="import_export"/>
                 <field name="numero_dum"/>
@@ -147,7 +152,7 @@
                 <field name="expected_date"/>
                 <field name="date_signature"/>
                 <field name="date_mainlevee"/>
-                <field name="date_livraison"/>
+                <field name="date_sortie"/>
             </tree>
         </field>
     </record>
@@ -196,7 +201,7 @@
                 <field name="controle_douanier_ids"/>
                 <field name="date_signature"/>
                 <field name="date_mainlevee"/>
-                <field name="date_livraison"/>
+                <field name="date_sortie"/>
             </tree>
         </field>
     </record>
