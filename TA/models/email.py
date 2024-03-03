@@ -72,7 +72,7 @@ class Email(models.Model):
             (r"Déclaration Référence :", "Message inspecteur"),
             (r"Liquidation des Droits et Taxes", "Liquidation"),
             (r"Signature de déclaration", "Signature"),
-            (r"Lancement du contrôle de la déclaration", "Lancement du Contrôle"),
+            (r"Lancement du contrôle de la déclaration", "Signature"),
             (r"Contre ecor de la DUM", "Contre Ecor"),
             (r"Délivrance bon de sortie", "Sortie"),
             (r"Quittance douanière", "Quittances"),
@@ -88,12 +88,6 @@ class Email(models.Model):
 
         return numero_dum, event_name
 
-    def update_event_name_from_subject(self):
-        for email in self:
-            numero_dum, event_name = email.extract_info_from_email(email.subject, email.body_html)
-            email.event_name = event_name
-            _logger.info(f"Event name mis à jour pour l'email {email.id} : {event_name}")
-
     @api.depends('numero_dum_extracted')
     def _compute_dossier_id(self):
         Dossier = self.env['ta.dossier']
@@ -102,3 +96,18 @@ class Email(models.Model):
             dossier = Dossier.search([('numero_dum', '=', email.numero_dum_extracted)], limit=1)
             # Assignation de 'dossier_id' avec l'ID du dossier trouvé ou False si aucun n'est trouvé
             email.dossier_id = dossier.id if dossier else False
+
+    def update_event_name_from_subject(self):
+        for email in self:
+            numero_dum, event_name = email.extract_info_from_email(email.subject, email.body_html)
+            email.event_name = event_name
+            _logger.info(f"Event name mis à jour pour l'email {email.id} : {event_name}")
+            # Appel de la méthode pour mettre à jour 'dossier_id'
+            email._compute_dossier_id()
+
+
+    def update_related_emails_dossier_id(self):
+        for dossier in self:
+            emails = self.env['ta.email'].search([('numero_dum_extracted', '=', dossier.numero_dum)])
+            emails.write({'dossier_id': dossier.id})
+

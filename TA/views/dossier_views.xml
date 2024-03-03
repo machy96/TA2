@@ -86,26 +86,32 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Lignes de Facturation">
-                            <field name="ligne_facturation_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
+                        <page string="Historique">
+                            <field name="email_ids" widget="one2many_list" context="{'default_dossier_id': active_id}">
                                 <tree>
-                                    <field name="date_ligne"/>
-                                    <field name="type_ligne"/>
-                                    <field name="fournisseur_id"/>
-                                    <field name="client_id"/>
-                                    <field name="categorie_id"/>
-                                    <field name="produit_id"/>
-                                    <field name="description"/>
-                                    <field name="prix_unitaire"/>
-                                    <field name="quantite"/>
-                                    <field name="fact_client"/>
-                                    <field name="n_fact_client"/>
-                                    <field name="fact_frs"/>
-                                    <field name="n_fact_frs"/>
+                                    <field name="received_date"/>
+                                    <field name="event_name"/>
+                                    <field name="email_from"/>
+                                    <field name="subject"/>
                                 </tree>
                             </field>
                         </page>
-                        <page string="Factures Liées"> <!-- Titre de l'onglet/page -->
+                        <page string="Bons de Livraison">
+                            <field name="delivery_order_ids" context="{'default_dossier_id': active_id}">
+                                <tree>
+                                    <field name="ref_tc_rem"/>
+                                    <field name="transporteur_id"/>
+                                    <field name="destination"/>
+                                    <field name="shipper_id" readonly="1"/>
+                                    <field name="consignee_id" readonly="1"/>
+                                    <field name="poids_brut" readonly="1"/>
+                                    <field name="nombre" readonly="1"/>
+                                    <field name="emballage" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Factures Liées"><!-- Titre de l'onglet/page -->
+                            <field name="statut_fact"/>
                             <field name="facture_ids"> <!-- Remplacez facture_ids par le nom du champ dans votre modèle -->
                                 <tree>
                                     <field name="name" readonly="1" string="Numéro de Facture"/>
@@ -135,10 +141,9 @@
         <field name="arch" type="xml">
             <tree>
                 <header>
-                <button name="action_update_details" type="action" string="Mettre à jour tout" class="oe_highlight"/>
-
+                    <button name="action_update_details" type="object"
+                        string="Mettre à jour dossier" class="oe_highlight"/>
                 </header>
-
                 <field name="sequence"/>
                 <field name="state"/>
                 <field name="date"/>
@@ -162,6 +167,10 @@
         <field name="model">ta.dossier</field>
         <field name="arch" type="xml">
             <tree>
+                <header>
+                    <button name="action_update_details" type="object"
+                        string="Mettre à jour l'Event Name" class="oe_highlight"/>
+                </header>
                 <field name="sequence"/>
                 <field name="state"/>
                 <field name="shipper_id"/>
@@ -187,6 +196,10 @@
         <field name="model">ta.dossier</field>
         <field name="arch" type="xml">
             <tree>
+                <header>
+                    <button name="action_update_details" type="object"
+                        string="Mettre à jour l'Event Name" class="oe_highlight"/>
+                </header>
                 <field name="sequence"/>
                 <field name="state"/>
                 <field name="shipper_id"/>
@@ -205,7 +218,7 @@
             </tree>
         </field>
     </record>
-    <record id="TA.view_dossier_search" model="ir.ui.view">
+    <record id="view_dossier_search" model="ir.ui.view">
         <field name="name">Dossier Search</field>
         <field name="model">ta.dossier</field>
         <field name="arch" type="xml">

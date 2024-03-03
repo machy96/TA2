@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Déclaration du rapport -->
+    <record id="delivery_order_report_action" model="ir.actions.report">
+        <field name="name">Bon de Livraison</field>
+        <field name="model">ta.delivery.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ta.report_bon_livraison</field>
+        <field name="report_file">ta.report_bon_livraison</field>
+        <field name="binding_model_id" ref="model_ta_delivery_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template de rapport QWeb -->
+    <template id="report_bon_livraison_template">
+        <t t-name="ta.report_bon_livraison">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <style>
+                                .delivery-order-header h2 {
+                                    text-align: center;
+                                    color: #333;
+                                    margin-bottom: 20px;
+                                }
+                                .delivery-order-info, .delivery-order-details {
+                                    margin-bottom: 20px;
+                                }
+                                .delivery-order-info p, .delivery-order-details p {
+                                    margin: 0;
+                                    line-height: 1.5;
+                                    color: #666;
+                                }
+                                .delivery-order-info p strong, .delivery-order-details p strong {
+                                    color: #000;
+                                }
+                                .delivery-order-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-bottom: 20px;
+                                }
+                                .delivery-order-table th, .delivery-order-table td {
+                                    border: 1px solid #ddd;
+                                    padding: 8px;
+                                    text-align: left;
+                                }
+                                .delivery-order-table th {
+                                    background-color: #f7f7f7;
+                                }
+                                .signature-section {
+                                    margin-top: 30px;
+                                }
+                                .signature-section p {
+                                    margin-bottom: 40px; /* Enough space for signatures */
+                                }
+                            </style>
+                            <div class="delivery-order-header">
+                                <h2>BON DE LIVRAISON</h2>
+                            </div>
+                            <div class="delivery-order-info">
+                                <p><strong>Numéro du BL :</strong> <span t-esc="o.name"/></p>
+                                <p><strong>Date de Livraison :</strong> <span t-esc="o.date"/></p>
+                                <p><strong>Transporteur :</strong> <span t-esc="o.transporteur_id.name"/></p>
+                                <p><strong>Destination :</strong> <span t-esc="o.destination"/></p>
+                                <p><strong>Numéro TC/REM :</strong> <span t-esc="o.ref_tc_rem"/></p>
+                            </div>
+                            <div class="delivery-order-details">
+                                <table class="delivery-order-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description de l'article</th>
+                                            <th>Nombre</th>
+                                            <th>Poids Brut</th>
+                                            <th>Type d'emballage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.dossier_id.articles" t-as="line">
+                                            <td><span t-esc="line.description"/></td>
+                                            <td><span t-esc="line.nombre"/></td>
+                                            <td><span t-esc="line.poids_brut"/> kg</td>
+                                            <td><span t-esc="line.emballage"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="instructions-section">
+                                <p><strong>Instructions spécifiques :</strong></p>
+                                <p>Cette section peut contenir des instructions spécifiques liées à la livraison...</p>
+                            </div>
+                            <div class="signature-section">
+                                <p>Signature du responsable :</p>
+                                <p>Signature du transporteur :</p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

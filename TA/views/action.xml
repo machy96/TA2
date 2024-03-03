@@ -54,17 +54,7 @@
         <field name="views" eval="[(ref('view_email_list'), 'tree'), (ref('view_email_form'), 'form')]"/>
     </record>
 
-    <record id="action_update_details" model="ir.actions.server">
-        <field name="name">Mettre à jour les détails du dossier</field>
-        <field name="model_id" ref="model_ta_dossier"/>
-        <field name="binding_model_id" ref="model_ta_dossier"/>
-        <field name="state">code</field>
-        <field name="code">
-            action = model.action_update_details()
-        </field>
-    </record>
-
-        <!-- Menu pour accéder à la liste des e-mails -->
+   <!-- Menu pour accéder à la liste des e-mails -->
     <menuitem id="menu_email_list"
               name="E-mails Entrants"
               parent="menu_dossier"

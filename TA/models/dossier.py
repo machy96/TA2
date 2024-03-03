@@ -377,6 +377,14 @@ class Dossier(models.Model):
     date_liquidation = fields.Date(string='Date liquidation', compute='_compute_event_dates')
     date_mainlevee = fields.Date(string='Date mainlevée', compute='_compute_event_dates')
     date_sortie = fields.Date(string='Date sortie', compute='_compute_event_dates')
+    statut_fact = fields.Selection([
+        ('en_cours', 'En cours'),
+        ('signe', 'Signé'),
+        ('pret_pour_sortie', 'Prêt pour sortie'),
+        ('livre', 'Livré'),
+        ('facture', 'Facturé'),
+        ('cloture', 'Clôturé'),
+    ], string='Statut Facture', default='en_cours')
     facture_summary_html = fields.Html(
         string='Résumé Factures',
         compute='_compute_facture_summary_html',
@@ -387,6 +395,7 @@ class Dossier(models.Model):
     ligne_facturation_ids = fields.One2many('ligne.facturation', 'dossier_id', string='Lignes de Facturation')
     ventilations_ids = fields.One2many('ventilation.model', 'dossier_id', string='Ventilations')
     facture_ids = fields.One2many('account.move', 'dossier_id', string='Factures Associées')
+    delivery_order_ids = fields.One2many('ta.delivery.order', 'dossier_id', string='Bon de livraison')
 
     # Nouveau : Champ calculé pour récupérer les lignes de facture liées
     ligne_facture_ids = fields.One2many('account.move.line', compute='_compute_ligne_facture_ids',
@@ -477,17 +486,27 @@ class Dossier(models.Model):
                 else:
                     setattr(dossier, field_name, False)
 
-    @api.depends('date_signature', 'date_mainlevee', 'date_sortie')
+    @api.depends('date_signature', 'date_mainlevee', 'date_sortie', 'statut_fact')
     def _compute_state(self):
-        for dossier in self:
-            if dossier.date_sortie:
-                dossier.state = 'livre'
-            elif dossier.date_mainlevee:
-                dossier.state = 'pret_pour_sortie'
-            elif dossier.date_signature:
-                dossier.state = 'signe'
+        for invoice in self:
+            if invoice.statut_fact == 'facture':
+                invoice.state = 'facture'
+            elif invoice.statut_fact == 'cloture':
+                invoice.state = 'cloture'
+            elif invoice.statut_fact == 'signe':
+                invoice.state = 'signe'
+            elif invoice.statut_fact == 'pret_pour_sortie':
+                invoice.state = 'pret_pour_sortie'
+            elif invoice.statut_fact == 'livre':
+                invoice.state = 'livre'
+            elif invoice.date_sortie:
+                invoice.state = 'livre'
+            elif invoice.date_mainlevee:
+                invoice.state = 'pret_pour_sortie'
+            elif invoice.date_signature:
+                invoice.state = 'signe'
             else:
-                dossier.state = 'preparation_dum'
+                invoice.state = 'preparation_dum'
 
     @api.model
     def create(self, vals):
@@ -506,6 +525,7 @@ class Dossier(models.Model):
                 {'dossier_id': self.id})
         return result
 
+    @api.depends('numero_dum')
     def _update_related_emails(self):
         for record in self:
             if record.numero_dum:
@@ -561,6 +581,10 @@ class Dossier(models.Model):
             # Mise à jour des champs calculés bureau, régime, année, etc.
             dossier._compute_dum_details()
             dossier._compute_event_dates()
+            dossier._update_related_emails()
             # Mise à jour du numéro de dossier dans ta.email si nécessaire
             emails = self.env['ta.email'].search([('numero_dum_extracted', '=', dossier.numero_dum)])
             emails.write({'dossier_id': dossier.id})
+
+
+
