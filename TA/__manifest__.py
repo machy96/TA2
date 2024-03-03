@@ -16,7 +16,6 @@
         'data/ta_dossier_data.xml',
         'views/ventilation_views.xml',
         'views/delivery_order.xml',
-        'views/report_bon_livraison.xml',
         'views/controle_views.xml',
         'views/lignefacturation.xml',
         'views/account_move_views.xml',
